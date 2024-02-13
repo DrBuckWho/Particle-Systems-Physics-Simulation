@@ -4,7 +4,6 @@ public class Particle : MonoBehaviour
 { //hello
   	public GameObject plane;
     private Vector3 velocity;
-    private bool grounded = false;
     public float mass = 1f;
     private int bounces = 0;
     private int maxBounces = 4; // Number of times particle can bounce before being deleted
@@ -44,7 +43,7 @@ public class Particle : MonoBehaviour
         // Assuming the plane is at y = 0, check if the particle is below the plane
         if (transform.position.y <= 0f)
         {
-          	Vector3 planeNormal = plane.normalized
+          	Vector3 planeNormal = plane.transform.normalized;
           	Vector3 relativeVelocity = -Vector3.Dot(planeNormal,velocity) * planeNormal;
             Vector3 reflectionDirection = velocity + 2 * relativeVelocity;
           // Reverse the y-component of velocity to simulate bouncing
@@ -52,9 +51,9 @@ public class Particle : MonoBehaviour
        			reflectionDirection = inverseRotation * reflectionDirection;
 
         		// Step 5: Apply the reflection direction to the sphere's velocity with a bounce factor
-        		sphereVelocity = bounceFactor * reflectionDirection;
+        		velocity = .08f * reflectionDirection;
           
-            velocity = sphereVelocity;
+             
             // Increment bounce count
             bounces++;
             // If exceeded maximum bounces, delete the particle
