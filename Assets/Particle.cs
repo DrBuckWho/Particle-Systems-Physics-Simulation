@@ -1,8 +1,8 @@
 using UnityEngine;
 
 public class Particle : MonoBehaviour
-{ //hello
-  	public GameObject plane;
+{
+    public GameObject plane;
     private Vector3 velocity;
     public float mass = 1f;
     private int bounces = 0;
@@ -43,17 +43,16 @@ public class Particle : MonoBehaviour
         // Assuming the plane is at y = 0, check if the particle is below the plane
         if (transform.position.y <= 0f)
         {
-          	Vector3 planeNormal = plane.transform.normalized;
-          	Vector3 relativeVelocity = -Vector3.Dot(planeNormal,velocity) * planeNormal;
+            Vector3 planeNormal = plane.transform.up.normalized;
+            Vector3 relativeVelocity = -Vector3.Dot(planeNormal, velocity) * planeNormal;
             Vector3 reflectionDirection = velocity + 2 * relativeVelocity;
-          // Reverse the y-component of velocity to simulate bouncing
-          	Quaternion inverseRotation = Quaternion.Inverse(plane.transform.rotation);
-       			reflectionDirection = inverseRotation * reflectionDirection;
+            // Reverse the y-component of velocity to simulate bouncing
+            Quaternion inverseRotation = Quaternion.Inverse(plane.transform.rotation);
+            reflectionDirection = inverseRotation * reflectionDirection;
 
-        		// Step 5: Apply the reflection direction to the sphere's velocity with a bounce factor
-        		velocity = .08f * reflectionDirection;
-          
-             
+            // Step 5: Apply the reflection direction to the particle's velocity with a bounce factor
+            velocity = 0.8f * reflectionDirection;
+
             // Increment bounce count
             bounces++;
             // If exceeded maximum bounces, delete the particle
@@ -63,4 +62,4 @@ public class Particle : MonoBehaviour
             }
         }
     }
-}
+  }
