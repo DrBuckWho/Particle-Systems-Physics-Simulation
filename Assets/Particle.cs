@@ -52,6 +52,7 @@ public class Particle : MonoBehaviour
       // Check if the particle is below the plane (in local coordinates)
       if (localPosition.y <= 0f)
       {
+        transform.position.y =0;
           // Calculate the reflection direction in local coordinates
           Vector3 reflectionDirection = Vector3.Reflect(velocity, planeNormal);
 
