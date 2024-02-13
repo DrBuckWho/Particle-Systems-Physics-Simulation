@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Particle : MonoBehaviour
 { //hello
+  	public GameObject plane;
     private Vector3 velocity;
     private bool grounded = false;
     public float mass = 1f;
@@ -43,7 +44,10 @@ public class Particle : MonoBehaviour
         // Assuming the plane is at y = 0, check if the particle is below the plane
         if (transform.position.y <= 0f)
         {
-            // Reverse the y-component of velocity to simulate bouncing
+          	Vector3 planeNormal = plane.normalized
+          	Vector3 relativeVelocity = -Vector3.Dot(planeNormal,velocity) * planeNormal;
+            Vector3 reflectionDirection = velocity + 2 * relativeVelocity;
+          // Reverse the y-component of velocity to simulate bouncing
             velocity.y *= -1;
             // Increment bounce count
             bounces++;
