@@ -48,7 +48,13 @@ public class Particle : MonoBehaviour
           	Vector3 relativeVelocity = -Vector3.Dot(planeNormal,velocity) * planeNormal;
             Vector3 reflectionDirection = velocity + 2 * relativeVelocity;
           // Reverse the y-component of velocity to simulate bouncing
-            velocity.y *= -1;
+          	Quaternion inverseRotation = Quaternion.Inverse(plane.transform.rotation);
+       			reflectionDirection = inverseRotation * reflectionDirection;
+
+        		// Step 5: Apply the reflection direction to the sphere's velocity with a bounce factor
+        		sphereVelocity = bounceFactor * reflectionDirection;
+          
+            velocity = sphereVelocity;
             // Increment bounce count
             bounces++;
             // If exceeded maximum bounces, delete the particle
