@@ -38,28 +38,38 @@ public class Particle : MonoBehaviour
     }
 
     // Check collision with plane
-    private void CheckCollisionWithPlane()
-    {
-        // Assuming the plane is at y = 0, check if the particle is below the plane
-        if (transform.position.y <= 0f)
-        {
-            Vector3 planeNormal = plane.transform.up.normalized;
-            Vector3 relativeVelocity = -Vector3.Dot(planeNormal, velocity) * planeNormal;
-            Vector3 reflectionDirection = velocity + 2 * relativeVelocity;
-            // Reverse the y-component of velocity to simulate bouncing
-            Quaternion inverseRotation = Quaternion.Inverse(plane.transform.rotation);
-            reflectionDirection = inverseRotation * reflectionDirection;
+  private void CheckCollisionWithPlane()
+  {
+      // Get the plane's normal direction
+      Vector3 planeNormal = plane.transform.up.normalized;
 
-            // Step 5: Apply the reflection direction to the particle's velocity with a bounce factor
-            velocity = 0.8f * reflectionDirection;
+      // Calculate the position of the particle relative to the plane
+      Vector3 particleToPlane = transform.position - plane.transform.position;
 
-            // Increment bounce count
-            bounces++;
-            // If exceeded maximum bounces, delete the particle
-            if (bounces >= maxBounces)
-            {
-                Destroy(gameObject);
-            }
-        }
-    }
+      // Project the relative position onto the plane's local coordinates
+      Vector3 localPosition = Quaternion.Inverse(plane.transform.rotation) * particleToPlane;
+
+      // Check if the particle is below the plane (in local coordinates)
+      if (localPosition.y <= 0f)
+      {
+          // Calculate the reflection direction in local coordinates
+          Vector3 reflectionDirection = Vector3.Reflect(velocity, planeNormal);
+
+          // Convert the reflection direction to world coordinates
+          reflectionDirection = plane.transform.rotation * reflectionDirection;
+
+          // Apply the reflection direction to the particle's velocity with a bounce factor
+          velocity = 0.8f * reflectionDirection;
+
+          // Increment bounce count
+          bounces++;
+
+          // If exceeded maximum bounces, delete the particle
+          if (bounces >= maxBounces)
+          {
+              Destroy(gameObject);
+          }
+      }
+  }
+
   }
