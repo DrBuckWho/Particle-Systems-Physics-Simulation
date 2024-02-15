@@ -13,6 +13,7 @@ public class Particle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+      
         // Update position based on velocity and acceleration
         transform.position += velocity * Time.deltaTime;
         ApplyForce(gravity * mass); // Apply gravity

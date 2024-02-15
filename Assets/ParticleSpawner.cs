@@ -19,6 +19,7 @@ public class ParticleSpawner : MonoBehaviour
             timer = 0f;
         }
     }
+  
 
     private void SpawnParticle()
     {
